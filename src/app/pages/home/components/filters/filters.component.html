@@ -1,0 +1,15 @@
+<mat-card class="p-4">
+    <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">Categories</h2>
+    <nav class="flex flex-row flex-wrap gap-1 md:flex-col">
+        <button type="button" (click)="onShowCategory(undefined)"
+            class="text-left px-3 py-2 rounded-md text-sm transition-colors"
+            [ngClass]="!selected ? 'bg-blue-50 text-blue-700 font-medium' : 'hover:bg-gray-100'">
+            All products
+        </button>
+        <button *ngFor="let category of categories" type="button" (click)="onShowCategory(category)"
+            class="text-left px-3 py-2 rounded-md text-sm transition-colors"
+            [ngClass]="selected === category ? 'bg-blue-50 text-blue-700 font-medium' : 'hover:bg-gray-100'">
+            {{ category }}
+        </button>
+    </nav>
+</mat-card>

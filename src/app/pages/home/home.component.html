@@ -1,0 +1,22 @@
+<div class="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
+    <aside class="md:w-56 shrink-0">
+        <app-filters [categories]="categories" [selected]="category" (showCategory)="onShowCategory($event)"></app-filters>
+    </aside>
+
+    <main class="flex-1 min-w-0">
+        <app-products-header
+            [cols]="cols" [sort]="sort" [itemsShowCount]="count"
+            (columnsCountChange)="onColumnsCountChange($event)"
+            (sortChange)="onSortChange($event)"
+            (itemsCountChange)="onItemsCountChange($event)">
+        </app-products-header>
+
+        <div class="grid gap-4" [ngClass]="gridClass">
+            <app-product-box *ngFor="let product of products; trackBy: trackById"
+                [product]="product" [fullWidthMode]="cols === 1" (addToCart)="onAddToCart($event)">
+            </app-product-box>
+        </div>
+
+        <p *ngIf="!products.length" class="text-center text-gray-500 py-16">No products found.</p>
+    </main>
+</div>

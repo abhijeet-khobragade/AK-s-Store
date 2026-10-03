@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@import "tailwindcss";
+
+
+.warn-fab {
+  @include mat.fab-overrides((
+    small-container-color: var(--mat-sys-error),
+    small-foreground-color: var(--mat-sys-on-error),
+  ));
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Tailwind's border reset gives Material's outlined field notch a stray vertical line */
+.mdc-notched-outline__notch {
+  border-left-style: hidden !important;
+  border-right-style: hidden !important;
+}

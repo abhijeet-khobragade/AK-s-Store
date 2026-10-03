@@ -1,0 +1,86 @@
+<div class="max-w-6xl mx-auto px-4 py-6">
+    <h1 class="text-2xl font-bold mb-4">
+        Shopping cart
+        <span *ngIf="cart.items.length" class="text-base font-normal text-gray-500">
+            ({{ getItemCount(cart.items) }} {{ getItemCount(cart.items) === 1 ? 'item' : 'items' }})
+        </span>
+    </h1>
+
+    <div *ngIf="cart.items.length; else emptyCart" class="grid gap-6 lg:grid-cols-3 items-start">
+        <section class="lg:col-span-2">
+            <mat-card class="divide-y divide-gray-200">
+                <div *ngFor="let item of cart.items; trackBy: trackById" class="flex flex-wrap sm:flex-nowrap items-center gap-4 p-4">
+                    <div class="w-20 h-20 shrink-0 bg-gray-50 rounded-md flex items-center justify-center p-2">
+                        <img [src]="item.product" [alt]="item.name" class="max-h-full max-w-full object-contain">
+                    </div>
+
+                    <div class="flex-1 min-w-0">
+                        <p class="font-medium line-clamp-2" [title]="item.name">{{ item.name }}</p>
+                        <p class="text-sm text-gray-500">{{ item.price | currency }} each</p>
+                    </div>
+
+                    <div class="flex items-center border border-gray-300 rounded-full">
+                        <button mat-icon-button (click)="onDecreaseQuantity(item)" [disabled]="item.quantity <= 1"
+                            [attr.aria-label]="'Decrease quantity of ' + item.name">
+                            <mat-icon>remove</mat-icon>
+                        </button>
+                        <span class="w-8 text-center font-medium" aria-live="polite">{{ item.quantity }}</span>
+                        <button mat-icon-button (click)="onIncreaseQuantity(item)"
+                            [attr.aria-label]="'Increase quantity of ' + item.name">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+
+                    <span class="w-24 text-right font-semibold">{{ item.price * item.quantity | currency }}</span>
+
+                    <button mat-icon-button class="text-gray-500" (click)="onRemoveFromCart(item)"
+                        [attr.aria-label]="'Remove ' + item.name + ' from cart'" title="Remove">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                </div>
+            </mat-card>
+
+            <div class="flex justify-between mt-4">
+                <a mat-button routerLink="/home">
+                    <mat-icon>arrow_back</mat-icon>
+                    Continue shopping
+                </a>
+                <button mat-button class="text-rose-600" (click)="onClearCart()">
+                    <mat-icon>remove_shopping_cart</mat-icon>
+                    Clear cart
+                </button>
+            </div>
+        </section>
+
+        <aside>
+            <mat-card class="p-5">
+                <h2 class="text-lg font-semibold mb-4">Order summary</h2>
+                <div class="flex justify-between text-sm mb-2">
+                    <span class="text-gray-600">Subtotal</span>
+                    <span>{{ getTotal(cart.items) | currency }}</span>
+                </div>
+                <div class="flex justify-between text-sm mb-4">
+                    <span class="text-gray-600">Shipping</span>
+                    <span class="text-green-700">Free</span>
+                </div>
+                <div class="flex justify-between font-semibold text-lg border-t border-gray-200 pt-4 mb-5">
+                    <span>Total</span>
+                    <span>{{ getTotal(cart.items) | currency }}</span>
+                </div>
+                <button mat-flat-button class="w-full" disabled>Proceed to checkout</button>
+                <p class="text-xs text-gray-500 text-center mt-2">Checkout isn't available yet.</p>
+            </mat-card>
+        </aside>
+    </div>
+
+    <ng-template #emptyCart>
+        <mat-card class="text-center py-16 px-6">
+            <mat-icon class="mx-auto text-gray-300 !w-16 !h-16 !text-[64px]">shopping_cart</mat-icon>
+            <p class="text-lg font-medium mt-4">Your cart is empty</p>
+            <p class="text-gray-500 mb-6">Browse the store and add something you like.</p>
+            <div>
+                <a mat-flat-button routerLink="/home">Start shopping</a>
+            </div>
+        </mat-card>
+    </ng-template>
+</div>

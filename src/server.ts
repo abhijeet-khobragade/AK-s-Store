@@ -5,6 +5,8 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
+import cookieParser from 'cookie-parser';
+import { authRouter } from './api/auth';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -15,16 +17,14 @@ const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 /**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
+ * REST API. Protect any new private endpoint with `requireAuth`, e.g.
+ * app.get('/api/orders', requireAuth, (req, res) => { ... });
  */
+app.use('/api', cookieParser());
+app.use('/api/auth', authRouter());
+app.use('/api', (_req, res) => {
+  res.status(404).json({ message: 'Not found.' });
+});
 
 /**
  * Serve static files from /browser

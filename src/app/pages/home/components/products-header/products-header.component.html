@@ -1,0 +1,34 @@
+<mat-card class="mb-4 px-2 py-1">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-1">
+            <button mat-button [matMenuTriggerFor]="sortByMenu">
+                {{ sortLabels[sort] }}
+                <mat-icon iconPositionEnd>expand_more</mat-icon>
+            </button>
+            <mat-menu #sortByMenu="matMenu">
+                <button mat-menu-item (click)="onSortUpdate('desc')">{{ sortLabels.desc }}</button>
+                <button mat-menu-item (click)="onSortUpdate('asc')">{{ sortLabels.asc }}</button>
+            </mat-menu>
+
+            <button mat-button [matMenuTriggerFor]="countMenu">
+                Show {{ itemsShowCount }}
+                <mat-icon iconPositionEnd>expand_more</mat-icon>
+            </button>
+            <mat-menu #countMenu="matMenu">
+                <button mat-menu-item (click)="onItemsUpdate(12)">12</button>
+                <button mat-menu-item (click)="onItemsUpdate(24)">24</button>
+                <button mat-menu-item (click)="onItemsUpdate(36)">36</button>
+            </mat-menu>
+        </div>
+
+        <div class="flex items-center">
+            <button *ngFor="let layout of layouts" mat-icon-button
+                (click)="onColumnsUpdated(layout.cols)"
+                [class.text-blue-600]="cols === layout.cols"
+                [class.text-gray-400]="cols !== layout.cols"
+                [attr.aria-label]="layout.label" [attr.aria-pressed]="cols === layout.cols" [title]="layout.label">
+                <mat-icon>{{ layout.icon }}</mat-icon>
+            </button>
+        </div>
+    </div>
+</mat-card>
